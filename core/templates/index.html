@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}Search Publications{% endblock %}
+
+{% block content %}
+<div class="page-description">
+  Discover and explore research publications from Coventry University's Computational Science research center.
+  Search through titles, authors, publication years, and abstracts using our intelligent ranking system.
+</div>
+
+<div class="search-form-container">
+  <form action="{% url 'search' %}" method="get">
+    <input type="hidden" id="stemming_flag" name="stem" value="0">
+
+    <div class="form-group">
+      <div class="input-wrapper">
+        <input type="text" name="q" class="search-input" placeholder="Enter keywords, author names, or topics..."
+          required autocomplete="off">
+      </div>
+
+      <div class="form-options">
+        <label class="checkbox-label">
+          <input type="checkbox" id="stemming_checkbox" class="checkbox-input"
+            onclick="document.getElementById('stemming_flag').value = this.checked ? '1' : '0';">
+          <span>Enable word stemming</span>
+        </label>
+
+        <button type="submit" class="primary-button">Search Now</button>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div class="info-message">
+  💡 <strong>Tip:</strong> Make sure the search index has been built by running the crawler before searching.
+  <br>
+  📅 <strong>Next Scheduled Crawl:</strong> {{ next_crawl }}
+</div>
+{% endblock %}

@@ -1,0 +1,32 @@
+{
+  "index_load_time_seconds": 0.0528,
+  "document_count": 41,
+  "query_samples": [
+    {
+      "query": "machine learning",
+      "time_ms": 0.21,
+      "results_count": 9
+    },
+    {
+      "query": "computational science",
+      "time_ms": 0.15,
+      "results_count": 10
+    },
+    {
+      "query": "algorithms",
+      "time_ms": 0.06,
+      "results_count": 10
+    },
+    {
+      "query": "data analysis",
+      "time_ms": 0.08,
+      "results_count": 10
+    },
+    {
+      "query": "neural networks",
+      "time_ms": 0.13,
+      "results_count": 10
+    }
+  ],
+  "average_query_time_ms": 0.13
+}

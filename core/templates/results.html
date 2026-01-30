@@ -1,0 +1,130 @@
+{% extends "base.html" %}
+
+{% block title %}Search Results{% endblock %}
+
+{% block content %}
+<div class="search-form-container">
+  <form action="{% url 'search' %}" method="get">
+    <input type="hidden" id="stemming_flag" name="stem" value="{% if use_stemming %}1{% else %}0{% endif %}">
+
+    <div class="form-group">
+      <div class="input-wrapper">
+        <input type="text" name="q" class="search-input" value="{{ q }}"
+          placeholder="Enter keywords, author names, or topics..." required autocomplete="off">
+      </div>
+
+      <div class="form-options">
+        <label class="checkbox-label">
+          <input type="checkbox" id="stemming_checkbox" class="checkbox-input" {% if use_stemming %}checked{% endif %}
+            onclick="document.getElementById('stemming_flag').value = this.checked ? '1' : '0';">
+          <span>Enable word stemming</span>
+        </label>
+
+        <button type="submit" class="primary-button">Search Again</button>
+      </div>
+    </div>
+  </form>
+</div>
+
+{% if not has_index %}
+<div class="warning-box">
+  <strong>⚠️ Search Index Not Available</strong>
+  <p>The search index has not been built yet. Please run the crawler first to generate the index.</p>
+  <div class="code-block">
+    python -m search_engine.orchestrator --max-pages 100
+  </div>
+</div>
+{% endif %}
+
+{% if q %}
+<div class="results-header">
+  <div>
+    <span class="query-display">Search: "{{ q }}"</span>
+    {% if total_results %}
+    <span style="color: var(--text-secondary); margin-left: 1rem;">
+      Found {{ total_results }} result{{ total_results|pluralize }}
+      ({{ query_time_ms }}ms)
+    </span>
+    {% endif %}
+  </div>
+</div>
+{% endif %}
+
+{% if q and total_results == 0 %}
+<div class="no-results">
+  <p>No publications found matching your query.</p>
+  <p style="margin-top: 0.5rem; font-size: 0.95rem;">Try different keywords or check if the index is properly built.</p>
+</div>
+{% endif %}
+
+{% for result_item in results %}
+<article class="result-card">
+  <h2 class="result-title">
+    <a href="{{ result_item.publication_url }}" target="_blank" rel="noopener" class="result-title-link">
+      {{ result_item.title }}
+    </a>
+  </h2>
+
+  <div class="result-meta-info">
+    <span>
+      <span class="meta-label">Year:</span> {{ result_item.year|default:"N/A" }}
+    </span>
+    <span>
+      <span class="meta-label">Relevance Score:</span> {{ result_item.score }}
+    </span>
+  </div>
+
+  {% if result_item.authors %}
+  <div class="result-meta-info">
+    <span class="meta-label">Authors:</span>
+    <span>{{ result_item.authors|join:", " }}</span>
+  </div>
+  {% endif %}
+
+  {% if result_item.author_urls %}
+  <div class="result-meta-info">
+    <span class="meta-label">Author Profiles:</span>
+    {% for profile_url in result_item.author_urls|slice:":4" %}
+    <a href="{{ profile_url }}" target="_blank" rel="noopener"
+      style="color: var(--accent-secondary); text-decoration: none; margin-right: 0.5rem;">
+      Profile {{ forloop.counter }}
+    </a>
+    {% endfor %}
+    {% if result_item.author_urls|length > 4 %}
+    <span style="color: var(--text-secondary);">+{{ result_item.author_urls|length|add:"-4" }} more</span>
+    {% endif %}
+  </div>
+  {% endif %}
+
+  {% if result_item.abstract %}
+  <div class="result-abstract">
+    {{ result_item.abstract }}
+  </div>
+  {% endif %}
+</article>
+{% endfor %}
+
+<!-- Pagination Controls -->
+{% if page_obj.has_other_pages %}
+<div class="pagination">
+  {% if page_obj.has_previous %}
+  <a href="?q={{ q }}&stem={% if use_stemming %}1{% else %}0{% endif %}&page=1" class="page-link">&laquo; First</a>
+  <a href="?q={{ q }}&stem={% if use_stemming %}1{% else %}0{% endif %}&page={{ page_obj.previous_page_number }}"
+    class="page-link">Previous</a>
+  {% endif %}
+
+  <span class="page-info">
+    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+  </span>
+
+  {% if page_obj.has_next %}
+  <a href="?q={{ q }}&stem={% if use_stemming %}1{% else %}0{% endif %}&page={{ page_obj.next_page_number }}"
+    class="page-link">Next</a>
+  <a href="?q={{ q }}&stem={% if use_stemming %}1{% else %}0{% endif %}&page={{ page_obj.paginator.num_pages }}"
+    class="page-link">Last &raquo;</a>
+  {% endif %}
+</div>
+{% endif %}
+
+<a href="{% url 'home' %}" class="back-link">← Return to Search</a>
+{% endblock %}

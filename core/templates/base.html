@@ -1,0 +1,31 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Intelligent IR System{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'core/style.css' %}">
+</head>
+
+<body>
+  <div class="container-wrapper">
+    <header class="app-header">
+      <h1 class="app-brand">IntelligentIR</h1>
+      <nav class="main-navigation">
+        <a href="{% url 'home' %}"
+          class="nav-item {% if request.resolver_match.url_name == 'home' or request.resolver_match.url_name == 'search' %}active{% endif %}">Search</a>
+
+        <a href="{% url 'classify' %}"
+          class="nav-item {% if request.resolver_match.url_name == 'classify' %}active{% endif %}">Classification</a>
+      </nav>
+    </header>
+
+    <main class="content-panel">
+      {% block content %}{% endblock %}
+    </main>
+  </div>
+</body>
+
+</html>

@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}Text Classification{% endblock %}
+
+{% block content %}
+  <div class="page-description">
+    Automatically categorize text content into predefined categories using our machine learning classifier.
+    Simply paste your text below and get instant predictions.
+  </div>
+
+  <div class="category-list">
+    <span class="category-tag">Business</span>
+    <span class="category-tag">Entertainment</span>
+    <span class="category-tag">Health</span>
+  </div>
+
+  {% if not model_ready %}
+    <div class="warning-box">
+      <strong>⚠️ Classification Model Not Available</strong>
+      <p>The classification model has not been trained yet. Please follow these steps to set it up:</p>
+      <div class="code-block">
+python -m classifier.rss_collect --per-class 40
+python -m classifier.train
+      </div>
+    </div>
+  {% endif %}
+
+  <form method="post" style="margin-top: 2rem;">
+    {% csrf_token %}
+    
+    <div class="form-group">
+      <div class="input-wrapper">
+        <textarea 
+          name="text" 
+          class="text-area-input" 
+          placeholder="Enter or paste the text you want to classify here...">{{ input_text }}</textarea>
+      </div>
+      
+      <button type="submit" class="primary-button">Classify Text</button>
+    </div>
+  </form>
+
+  {% if predicted_category %}
+    <div class="category-badge">
+      Predicted Category: <strong>{{ predicted_category }}</strong>
+      {% if confidence_score %}
+        <br>
+        <span style="font-size: 0.9em; opacity: 0.9;">Confidence: {{ confidence_score }}</span>
+      {% endif %}
+    </div>
+  {% endif %}
+
+  <a href="{% url 'home' %}" class="back-link">← Return to Search</a>
+{% endblock %}

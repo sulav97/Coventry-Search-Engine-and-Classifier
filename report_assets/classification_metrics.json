@@ -1,0 +1,35 @@
+{
+  "accuracy": 0.8966,
+  "classes": [
+    "Business",
+    "Entertainment",
+    "Health"
+  ],
+  "test_size": 29,
+  "train_size": 85,
+  "per_class_metrics": {
+    "Business": {
+      "precision": 0.9,
+      "recall": 0.9,
+      "f1-score": 0.9,
+      "support": 10.0
+    },
+    "Entertainment": {
+      "precision": 1.0,
+      "recall": 0.7778,
+      "f1-score": 0.875,
+      "support": 9.0
+    },
+    "Health": {
+      "precision": 0.8333,
+      "recall": 1.0,
+      "f1-score": 0.9091,
+      "support": 10.0
+    }
+  },
+  "macro_avg": {
+    "precision": 0.9111,
+    "recall": 0.8926,
+    "f1-score": 0.8947
+  }
+}

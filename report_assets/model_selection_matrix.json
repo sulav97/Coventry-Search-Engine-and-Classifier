@@ -1,0 +1,61 @@
+{
+  "comparison": [
+    {
+      "Model": "Naive Bayes",
+      "Accuracy": 89.7,
+      "Precision": 92.3,
+      "Recall": 89.3,
+      "F1-Score": 89.7,
+      "CV Mean": 77.2,
+      "CV Std": 4.2
+    },
+    {
+      "Model": "Logistic Regression",
+      "Accuracy": 82.8,
+      "Precision": 85.6,
+      "Recall": 82.2,
+      "F1-Score": 82.5,
+      "CV Mean": 78.1,
+      "CV Std": 7.3
+    },
+    {
+      "Model": "Linear SVM",
+      "Accuracy": 93.1,
+      "Precision": 93.3,
+      "Recall": 93.3,
+      "F1-Score": 93.3,
+      "CV Mean": 78.9,
+      "CV Std": 7.5
+    },
+    {
+      "Model": "Random Forest",
+      "Accuracy": 55.2,
+      "Precision": 81.2,
+      "Recall": 53.7,
+      "F1-Score": 49.1,
+      "CV Mean": 63.0,
+      "CV Std": 11.7
+    },
+    {
+      "Model": "K-Nearest Neighbors",
+      "Accuracy": 79.3,
+      "Precision": 80.1,
+      "Recall": 79.3,
+      "F1-Score": 79.3,
+      "CV Mean": 78.9,
+      "CV Std": 6.6
+    },
+    {
+      "Model": "Decision Tree",
+      "Accuracy": 65.5,
+      "Precision": 69.7,
+      "Recall": 64.4,
+      "F1-Score": 63.0,
+      "CV Mean": 61.3,
+      "CV Std": 9.4
+    }
+  ],
+  "best_model": "Linear SVM",
+  "selection_criteria": "F1-Score (macro average)",
+  "justification": "Linear SVM selected for highest F1-Score and good cross-validation stability."
+}

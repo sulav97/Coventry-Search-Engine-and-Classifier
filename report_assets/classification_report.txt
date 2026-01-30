@@ -1,0 +1,14 @@
+Classification Report
+==================================================
+
+Accuracy: 0.8966
+
+               precision    recall  f1-score   support
+
+     Business       0.90      0.90      0.90        10
+Entertainment       1.00      0.78      0.88         9
+       Health       0.83      1.00      0.91        10
+
+     accuracy                           0.90        29
+    macro avg       0.91      0.89      0.89        29
+ weighted avg       0.91      0.90      0.90        29
